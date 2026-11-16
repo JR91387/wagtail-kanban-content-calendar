@@ -1,0 +1,52 @@
+{% load i18n wagtailadmin_tags %}
+{% include "wagtailadmin/shared/listing/filter_partials.html" %}
+<div class="wkcc-toolbar">
+    <nav class="wkcc-calnav" aria-label="{% trans 'Calendar navigation' %}">
+        <a class="button button-small button-secondary" href="{{ index_url }}?{{ filter_query }}&amp;view={{ mode }}&amp;date={{ prev_date|date:'Y-m-d' }}" aria-label="{% trans 'Previous' %}">‹</a>
+        <h2 class="wkcc-calnav__title">{% if mode == "week" %}{% blocktrans with start=weeks.0.0.0|date:"M j" %}Week of {{ start }}{% endblocktrans %}{% else %}{{ anchor|date:"F Y" }}{% endif %}</h2>
+        <a class="button button-small button-secondary" href="{{ index_url }}?{{ filter_query }}&amp;view={{ mode }}&amp;date={{ next_date|date:'Y-m-d' }}" aria-label="{% trans 'Next' %}">›</a>
+        <a class="button button-small button-secondary" href="{{ index_url }}?{{ filter_query }}&amp;view={{ mode }}">{% trans "Today" %}</a>
+    </nav>
+    <div class="wkcc-segmented" role="group" aria-label="{% trans 'View' %}">
+        <a class="button button-small{% if mode != 'month' %} button-secondary{% endif %}" href="{{ index_url }}?{{ filter_query }}&amp;view=month&amp;date={{ anchor|date:'Y-m-d' }}"{% if mode == 'month' %} aria-current="true"{% endif %}>{% trans "Month" %}</a>
+        <a class="button button-small{% if mode != 'week' %} button-secondary{% endif %}" href="{{ index_url }}?{{ filter_query }}&amp;view=week&amp;date={{ anchor|date:'Y-m-d' }}"{% if mode == 'week' %} aria-current="true"{% endif %}>{% trans "Week" %}</a>
+    </div>
+</div>
+<p class="wkcc-legend"><span class="wkcc-chip wkcc-chip--published">{% trans "Published" %}</span> <span class="wkcc-chip wkcc-chip--scheduled">{% trans "Scheduled" %}</span> <span class="wkcc-chip wkcc-chip--target">{% trans "Target date" %}</span></p>
+
+<div class="wkcc-calendar-layout">
+    <table class="wkcc-calendar{% if mode == 'week' %} wkcc-calendar--week{% endif %}">
+        <thead><tr>{% for name in weekday_names %}<th scope="col">{{ name }}</th>{% endfor %}</tr></thead>
+        <tbody>
+            {% for week in weeks %}
+                <tr>
+                    {% for day, items in week %}
+                        <td class="wkcc-day{% if day == today %} wkcc-day--today{% endif %}{% if mode == 'month' and day.month != anchor.month %} wkcc-day--other{% endif %}"
+                            data-date="{{ day|date:'Y-m-d' }}" data-action="dragover->wkcc-board#dragOver dragleave->wkcc-board#dragLeave drop->wkcc-board#dropOnDay">
+                            <span class="wkcc-day__number">{{ day.day }}</span>
+                            {% for kind, card in items %}
+                                <a class="wkcc-chip wkcc-chip--{{ kind }}" href="{% url 'wagtail_kanban_content_calendar:card' card.page.pk %}"
+                                   {% if kind == "published" %}data-action="click->wkcc-board#openCard"{% else %}draggable="true" data-wkcc-board-target="card" data-action="dragstart->wkcc-board#dragStart dragend->wkcc-board#dragEnd click->wkcc-board#openCard"{% endif %}
+                                   data-page-id="{{ card.page.pk }}" data-token="{{ card.token }}" data-kind="{{ kind }}" data-title="{{ card.page.title }}"
+                                   data-move-url="{% url 'wagtail_kanban_content_calendar:move' card.page.pk %}"
+                                   data-schedule-url="{% url 'wagtail_kanban_content_calendar:schedule' card.page.pk %}"
+                                   data-target-url="{% url 'wagtail_kanban_content_calendar:target_date' card.page.pk %}">
+                                    {% for kind, text in card.pills %}{% if kind == "warning" %}{% icon name="warning" classname="wkcc-chip__alert" %}<span class="w-sr-only">{{ text }}:</span> {% endif %}{% endfor %}{{ card.page.title }}
+                                </a>
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <aside class="wkcc-tray">
+        <h2>{% blocktrans count n=ready_no_date|length %}Ready to publish, no date ({{ n }}){% plural %}Ready to publish, no date ({{ n }}){% endblocktrans %}</h2>
+        <p class="wkcc-help">{% trans "Drag onto a day to schedule." %}</p>
+        {% for card in ready_no_date %}{% include "wagtail_kanban_content_calendar/includes/tray_item.html" with kind="ready" %}{% empty %}<p class="wkcc-empty">{% trans "None" %}</p>{% endfor %}
+        <h2>{% blocktrans count n=no_target|length %}Without a target date ({{ n }}){% plural %}Without a target date ({{ n }}){% endblocktrans %}</h2>
+        <p class="wkcc-help">{% trans "Drag onto a day to set a target date." %}</p>
+        {% for card in no_target %}{% include "wagtail_kanban_content_calendar/includes/tray_item.html" with kind="target" %}{% empty %}<p class="wkcc-empty">{% trans "None" %}</p>{% endfor %}
+    </aside>
+</div>

@@ -1,0 +1,35 @@
+{% load i18n wagtailadmin_tags %}
+<article class="wkcc-card{% if card.stage == 'cancelled' %} wkcc-card--cancelled{% endif %}"
+         draggable="true"
+         data-wkcc-board-target="card"
+         data-action="dragstart->wkcc-board#dragStart dragend->wkcc-board#dragEnd"
+         data-page-id="{{ card.page.pk }}"
+         data-token="{{ card.token }}"
+         data-stage="{{ card.stage.value }}"
+         data-undo="{{ card.undo_message }}"
+         data-move-url="{% url 'wagtail_kanban_content_calendar:move' card.page.pk %}"
+         data-schedule-url="{% url 'wagtail_kanban_content_calendar:schedule' card.page.pk %}"
+         data-title="{{ card.page.title }}">
+    <div class="wkcc-card__head">
+        <h3 class="wkcc-card__title">
+            <a href="{% url 'wagtail_kanban_content_calendar:card' card.page.pk %}" data-action="wkcc-board#openCard">{{ card.page.title }}</a>
+        </h3>
+        <details class="wkcc-card__move">
+            <summary aria-label="{% blocktrans with title=card.page.title %}Move “{{ title }}”{% endblocktrans %}" title="{% trans 'Move…' %}">{% icon name="dots-horizontal" %}</summary>
+            <form method="post" action="{% url 'wagtail_kanban_content_calendar:move' card.page.pk %}" data-wkcc-move-form>
+                {% csrf_token %}
+                <input type="hidden" name="token" value="{{ card.token }}">
+                <input type="hidden" name="next" value="{{ move_next|default:request.get_full_path }}">
+                <label class="w-sr-only" for="move-{{ card.page.pk }}">{% blocktrans with title=card.page.title %}Move “{{ title }}” to{% endblocktrans %}</label>
+                <select id="move-{{ card.page.pk }}" name="to">
+                    {% for value, label in move_choices %}<option value="{{ value }}"{% if value == card.stage %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                </select>
+                <button type="submit" class="button button-small button-secondary">{% trans "Move" %}</button>
+            </form>
+        </details>
+    </div>
+    {% if card.site_name or card.locale_code %}<p class="wkcc-card__pills">{% if card.site_name %}<span class="w-status">{{ card.site_name }}</span>{% endif %}{% if card.locale_code %}<span class="w-status">{{ card.locale_code }}</span>{% endif %}</p>{% endif %}
+    {% with pills=card.pills %}{% if pills %}
+        <p class="wkcc-card__pills">{% for kind, text in pills %}<span class="w-status{% if kind == 'warning' %} wkcc-pill--warning{% endif %}">{{ text }}</span>{% endfor %}</p>
+    {% endif %}{% endwith %}
+</article>

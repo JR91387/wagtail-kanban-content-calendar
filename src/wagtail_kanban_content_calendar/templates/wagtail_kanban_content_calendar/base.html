@@ -1,0 +1,12 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'wagtail_kanban_content_calendar/css/planner.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    <script src="{% static 'wagtail_kanban_content_calendar/js/planner.js' %}" defer></script>
+{% endblock %}

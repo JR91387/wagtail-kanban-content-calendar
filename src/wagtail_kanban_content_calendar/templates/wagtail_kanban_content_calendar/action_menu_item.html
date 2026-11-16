@@ -1,0 +1,13 @@
+{% load i18n wagtailadmin_tags %}
+{% if undo_message %}
+    {% dialog_toggle classname="button"|add:classname dialog_id=dialog_id text=label %}
+    {% dialog id=dialog_id title=label icon_name="warning" %}
+        <p>{{ undo_message }}</p>
+        <p class="wkcc-detail__actions">
+            <button type="button" class="button" data-controller="w-action" data-action="w-action#post" data-w-action-url-value="{{ action_url }}&amp;confirm=1">{% trans "Yes, move it" %}</button>
+            <button type="button" class="button button-secondary" data-action="w-dialog#hide">{% trans "Cancel" %}</button>
+        </p>
+    {% enddialog %}
+{% else %}
+    <button type="button" class="button{% if classname %} {{ classname }}{% endif %}" data-controller="w-action" data-action="w-action#post" data-w-action-url-value="{{ action_url }}">{% if icon_name %}{% icon name=icon_name %}{% endif %}{{ label }}</button>
+{% endif %}

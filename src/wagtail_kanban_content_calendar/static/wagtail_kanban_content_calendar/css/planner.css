@@ -1,0 +1,406 @@
+/* Layout only. Colours come from Wagtail's admin tokens so light, dark and high-contrast follow Wagtail.
+ * The --wkcc sizes exist because Wagtail's stylelint config requires a variable for every length
+ * (scale-unlimited/declaration-strict-value), and Wagtail's admin offers no spacing variables to reuse. */
+
+:root {
+  --wkcc-z-popover: 2;
+  --wkcc-size-icon: 1rem;
+  --wkcc-space-none: 0;
+  --wkcc-space-3xs: 0.125rem;
+  --wkcc-space-2xs: 0.25rem;
+  --wkcc-space-xs: 0.375rem;
+  --wkcc-space-sm: 0.5rem;
+  --wkcc-space-sm-plus: 0.6rem;
+  --wkcc-space-md: 0.75rem;
+  --wkcc-space-lg: 1rem;
+  --wkcc-space-xl: 1.25rem;
+  --wkcc-text-xs: 0.75rem;
+  --wkcc-text-sm: 0.8125rem;
+  --wkcc-text-md: 0.875rem;
+  --wkcc-text-lg: 0.9375rem;
+  --wkcc-text-xl: 1rem;
+  --wkcc-text-2xl: 1.25rem;
+  --wkcc-radius-sm: 0.25rem;
+  --wkcc-radius-md: 0.3125rem;
+  --wkcc-radius-pill: 0.75rem;
+  --wkcc-size-day-number: 1.5rem;
+  --wkcc-size-day-phone: 5rem;
+  --wkcc-size-day: 7rem;
+  --wkcc-size-control: 10rem;
+  --wkcc-size-column-min-height: 12rem;
+  --wkcc-size-card: 14rem;
+  --wkcc-size-tray: 16rem;
+  --wkcc-size-day-week: 18rem;
+  --wkcc-size-form: 40rem;
+  --wkcc-weight-strong: 600;
+}
+
+.wkcc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wkcc-space-md) var(--wkcc-space-xl);
+  align-items: center;
+  margin-block-end: var(--wkcc-space-xl);
+}
+
+.wkcc-board {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(var(--wkcc-size-control), 1fr));
+  gap: var(--wkcc-space-md);
+  overflow-x: auto;
+  padding-block-end: var(--wkcc-space-sm);
+}
+
+.wkcc-column,
+.wkcc-cancelled__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wkcc-space-sm);
+  min-height: var(--wkcc-size-column-min-height);
+  padding: var(--wkcc-space-md);
+  border: 1px solid var(--w-color-border-furniture);
+  border-radius: var(--wkcc-radius-md);
+  background: var(--w-color-surface-page);
+}
+
+.wkcc-column__title {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--wkcc-space-none);
+  font-size: var(--wkcc-text-xl);
+}
+
+.wkcc-count {
+  color: var(--w-color-text-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.wkcc-card {
+  position: relative;
+  padding: var(--wkcc-space-sm-plus) var(--wkcc-space-md);
+  border: 1px solid var(--w-color-border-field-default);
+  border-radius: var(--wkcc-radius-md);
+  background: var(--w-color-surface-field);
+  cursor: grab;
+}
+
+.wkcc-card--cancelled {
+  opacity: 0.75;
+}
+
+/* A card is its title; pills appear only when something needs attention (Card.pills). */
+.wkcc-card__head {
+  display: flex;
+  gap: var(--wkcc-space-xs);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.wkcc-card__title {
+  margin: var(--wkcc-space-none);
+  font-size: var(--wkcc-text-lg);
+  line-height: 1.3;
+}
+
+.wkcc-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wkcc-space-2xs);
+  margin: var(--wkcc-space-xs) var(--wkcc-space-none) var(--wkcc-space-none);
+}
+
+.wkcc-card__pills .w-status {
+  white-space: nowrap;
+}
+
+.wkcc-pill--warning {
+  border-color: var(--w-color-warning-100);
+  background: var(--w-color-warning-50);
+  color: var(--w-color-grey-600);
+}
+
+.wkcc-card__move {
+  flex: none;
+  font-size: var(--wkcc-text-sm);
+}
+
+/* The ⋯ button: the keyboard and no-script way to move a card. */
+.wkcc-card__move summary {
+  display: flex;
+  padding: var(--wkcc-space-3xs);
+  border-radius: var(--wkcc-radius-md);
+  color: var(--w-color-text-meta);
+  cursor: pointer;
+  list-style: none;
+}
+
+.wkcc-card__move summary .icon {
+  width: var(--wkcc-size-icon);
+  height: var(--wkcc-size-icon);
+}
+
+.wkcc-card__move summary::-webkit-details-marker {
+  display: none;
+}
+
+.wkcc-card__move summary:hover,
+.wkcc-card__move[open] summary {
+  color: var(--w-color-text-link-default);
+}
+
+.wkcc-card__move form {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  z-index: var(--wkcc-z-popover);
+  inset-inline: var(--wkcc-space-none);
+  top: 100%;
+  gap: var(--wkcc-space-xs);
+  padding: var(--wkcc-space-sm);
+  border: 1px solid var(--w-color-border-field-default);
+  border-radius: var(--wkcc-radius-md);
+  background: var(--w-color-surface-field);
+  box-shadow: 0 1px 4px var(--w-color-box-shadow-md);
+}
+
+.wkcc-chip__alert {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  color: var(--w-color-text-error);
+}
+
+.wkcc-card__move select {
+  flex: 1;
+  min-width: 0;
+  padding-block: var(--wkcc-space-2xs);
+  font-size: var(--wkcc-text-sm);
+}
+
+.wkcc-dragging {
+  opacity: 0.5;
+}
+
+.wkcc-drop-target {
+  outline: 2px dashed var(--w-color-focus);
+  outline-offset: -2px;
+}
+
+.wkcc-empty,
+.wkcc-help {
+  margin: var(--wkcc-space-none);
+  color: var(--w-color-text-meta);
+  font-size: var(--wkcc-text-sm);
+}
+
+.wkcc-cancelled {
+  margin-block-start: var(--wkcc-space-lg);
+}
+
+.wkcc-cancelled summary {
+  cursor: pointer;
+  font-weight: var(--wkcc-weight-strong);
+}
+
+.wkcc-cancelled__list {
+  flex-flow: row wrap;
+  min-height: 0;
+  margin-block-start: var(--wkcc-space-sm);
+}
+
+.wkcc-cancelled__list .wkcc-card {
+  width: var(--wkcc-size-card);
+}
+
+.wkcc-calnav {
+  display: flex;
+  gap: var(--wkcc-space-sm);
+  align-items: center;
+}
+
+.wkcc-calnav__title {
+  min-width: var(--wkcc-size-control);
+  margin: var(--wkcc-space-none);
+  font-size: var(--wkcc-text-2xl);
+  text-align: center;
+}
+
+.wkcc-segmented {
+  display: inline-flex;
+  gap: var(--wkcc-space-2xs);
+}
+
+.wkcc-legend {
+  display: flex;
+  gap: var(--wkcc-space-sm);
+}
+
+.wkcc-calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--wkcc-size-tray);
+  gap: var(--wkcc-space-lg);
+  align-items: start;
+}
+
+.wkcc-calendar {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.wkcc-calendar th {
+  padding: var(--wkcc-space-2xs);
+  color: var(--w-color-text-meta);
+  font-size: var(--wkcc-text-sm);
+  text-align: start;
+}
+
+.wkcc-day {
+  height: var(--wkcc-size-day);
+  padding: var(--wkcc-space-2xs);
+  border: 1px solid var(--w-color-border-furniture);
+  vertical-align: top;
+}
+
+.wkcc-calendar--week .wkcc-day {
+  height: var(--wkcc-size-day-week);
+}
+
+.wkcc-day--other {
+  background: var(--w-color-surface-field-inactive);
+}
+
+.wkcc-day--today .wkcc-day__number {
+  color: var(--w-color-text-button);
+  background: var(--w-color-primary);
+}
+
+.wkcc-day__number {
+  display: inline-block;
+  min-width: var(--wkcc-size-day-number);
+  margin-block-end: var(--wkcc-space-2xs);
+  border-radius: var(--wkcc-radius-pill);
+  font-size: var(--wkcc-text-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.wkcc-chip {
+  display: block;
+  margin-block-end: var(--wkcc-space-2xs);
+  padding: var(--wkcc-space-3xs) var(--wkcc-space-xs);
+  overflow: hidden;
+  border: 1px solid var(--w-color-border-field-default);
+  border-radius: var(--wkcc-radius-sm);
+  color: var(--w-color-text-context);
+  background: var(--w-color-surface-field);
+  font-size: var(--wkcc-text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wkcc-legend .wkcc-chip {
+  display: inline-block;
+}
+
+.wkcc-chip--published {
+  border-color: var(--w-color-secondary);
+  color: var(--w-color-text-button);
+  background: var(--w-color-secondary);
+}
+
+.wkcc-chip--target {
+  border-style: dashed;
+}
+
+.wkcc-tray {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wkcc-space-sm);
+  padding: var(--wkcc-space-md);
+  border: 1px solid var(--w-color-border-furniture);
+  border-radius: var(--wkcc-radius-md);
+}
+
+.wkcc-tray h2 {
+  margin: var(--wkcc-space-sm) var(--wkcc-space-none) var(--wkcc-space-none);
+  font-size: var(--wkcc-text-lg);
+}
+
+.wkcc-tray__item {
+  cursor: grab;
+}
+
+.wkcc-form > div {
+  margin-block-end: var(--wkcc-space-lg);
+}
+
+.wkcc-form--page {
+  max-width: var(--wkcc-size-form);
+}
+
+.wkcc-starter {
+  margin-block-end: var(--wkcc-space-lg);
+  padding: var(--wkcc-space-md);
+  border: 1px solid var(--w-color-border-furniture);
+  border-radius: var(--wkcc-radius-md);
+}
+
+.wkcc-detail__facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--wkcc-space-xs) var(--wkcc-space-lg);
+}
+
+.wkcc-detail__facts dt {
+  color: var(--w-color-text-meta);
+}
+
+.wkcc-detail__facts dd {
+  margin: var(--wkcc-space-none);
+}
+
+.wkcc-detail__actions {
+  display: flex;
+  gap: var(--wkcc-space-sm);
+}
+
+.wkcc-history {
+  padding-inline-start: var(--wkcc-space-xl);
+  font-size: var(--wkcc-text-md);
+}
+
+/* Plain CSS has no compile-time variables for media queries. */
+/* stylelint-disable-next-line scss/media-feature-value-dollar-variable */
+@media (max-width: 50em) {
+  .wkcc-calendar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .wkcc-day {
+    height: var(--wkcc-size-day-phone);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wkcc-card {
+    transition: box-shadow 0.15s ease;
+  }
+
+  .wkcc-card:hover {
+    box-shadow: 0 1px 4px var(--w-color-box-shadow-md);
+  }
+}
+
+.wkcc-confirm {
+  margin-block-end: var(--wkcc-space-xl);
+  padding: var(--wkcc-space-lg);
+  border: 1px solid var(--w-color-border-furniture);
+  border-radius: var(--wkcc-radius-md);
+}
+
+.wkcc-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--wkcc-size-tray), 1fr));
+  gap: var(--wkcc-space-lg);
+}

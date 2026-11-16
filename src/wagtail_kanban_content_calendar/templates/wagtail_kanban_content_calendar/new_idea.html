@@ -1,0 +1,9 @@
+{% extends "wagtail_kanban_content_calendar/base.html" %}
+{% load i18n %}
+{% block main_content %}
+<form method="post" class="wkcc-form wkcc-form--page">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="button">{% trans "Create idea" %}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,6 @@
+<a class="wkcc-chip wkcc-chip--{{ kind }} wkcc-tray__item" href="{% url 'wagtail_kanban_content_calendar:card' card.page.pk %}"
+   draggable="true" data-wkcc-board-target="card" data-action="dragstart->wkcc-board#dragStart dragend->wkcc-board#dragEnd click->wkcc-board#openCard"
+   data-page-id="{{ card.page.pk }}" data-token="{{ card.token }}" data-kind="{{ kind }}" data-title="{{ card.page.title }}"
+   data-move-url="{% url 'wagtail_kanban_content_calendar:move' card.page.pk %}"
+   data-schedule-url="{% url 'wagtail_kanban_content_calendar:schedule' card.page.pk %}"
+   data-target-url="{% url 'wagtail_kanban_content_calendar:target_date' card.page.pk %}">{{ card.page.title }}</a>

@@ -1,0 +1,73 @@
+[project]
+name = "wagtail-kanban-content-calendar"
+version = "0.2.0"
+description = "Kanban board and content calendar for Wagtail pages, inside the Wagtail admin."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Jerry Reinitz" }]
+keywords = ["wagtail", "django", "kanban", "content calendar", "editorial workflow"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Framework :: Django :: 6.1",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 7",
+    "Framework :: Wagtail :: 8",
+]
+# Supported: every Wagtail release that still gets security fixes, from the oldest LTS up.
+# https://github.com/wagtail/wagtail/wiki/Release-schedule
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.2",
+    "wagtail>=7.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/JR91387/wagtail-kanban-content-calendar"
+Source = "https://github.com/JR91387/wagtail-kanban-content-calendar"
+Issues = "https://github.com/JR91387/wagtail-kanban-content-calendar/issues"
+Changelog = "https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "dj-database-url>=3.1.2",
+    "pytest>=8.1.1",
+    "pytest-cov>=7.1.0",
+    "pytest-django>=4.12.0",
+    "ruff>=0.15.9",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.6,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "wagtail_kanban_content_calendar"
+source-exclude = [
+    "wagtail_kanban_content_calendar/static_src",
+    "wagtail_kanban_content_calendar/test",
+    "wagtail_kanban_content_calendar/static/wagtail_kanban_content_calendar/js/.gitignore",
+    "testmanage.py",
+    ".*",
+    # Root-level tooling files only: a bare "*.js" also dropped the shipped static/js/*.js from the wheel.
+    "prettier.config.js",
+    "package.json",
+    "package-lock.json",
+    "*.ini",
+    "*.yml",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "wagtail_kanban_content_calendar.test.settings"
+testpaths = ["tests"]

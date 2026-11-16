@@ -1,0 +1,14 @@
+{% load i18n wagtailadmin_tags %}
+<li>
+    {% if overdue %}
+        {% icon name="warning" %}
+        <a href="{{ calendar_url }}">
+            {% blocktrans trimmed count counter=overdue %}{{ counter }} scheduled page overdue{% plural %}{{ counter }} scheduled pages overdue{% endblocktrans %}
+        </a>
+    {% else %}
+        {% icon name="calendar-alt" %}
+        <a href="{{ calendar_url }}">
+            {% blocktrans trimmed count counter=scheduled %}{{ counter }} scheduled this week{% plural %}{{ counter }} scheduled this week{% endblocktrans %}
+        </a>
+    {% endif %}
+</li>

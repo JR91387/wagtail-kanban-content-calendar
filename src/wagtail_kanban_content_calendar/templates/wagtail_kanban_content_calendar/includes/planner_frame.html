@@ -1,0 +1,22 @@
+{% load i18n wagtailadmin_tags %}
+{% comment %}
+    Shared by Board and Calendar. Wagtail's header (search, filter drilldown) refreshes #listing-results in
+    place; the hidden w-swap form below does the same after a move, when the board script dispatches
+    wkcc:refresh with the results URL.
+{% endcomment %}
+<div data-controller="wkcc-board" data-wkcc-board-csrf-value="{{ csrf_token }}"
+     data-wkcc-board-results-url-value="{{ index_results_url }}"
+     data-wkcc-board-network-error-value="{% trans 'Couldn’t reach the server. Nothing was changed. Check your connection and try again.' %}"
+     data-wkcc-board-not-allowed-value="{% trans 'That didn’t work. You may not have permission, or your session ended. Reload the page.' %}"
+     data-wkcc-board-server-error-value="{% trans 'The server had a problem, so nothing was changed. Try again, or reload the page.' %}">
+    <div class="wkcc-toolbar">
+        {% dialog_toggle classname="button bicolor button--icon" dialog_id="wkcc-new-idea-dialog" text=_("New idea") %}
+    </div>
+    <div id="listing-results">
+        {% include view.results_template_name %}
+    </div>
+    <form hidden method="get" action="{{ index_results_url }}"
+          data-controller="w-swap" data-w-swap-target-value="#listing-results"
+          data-action="wkcc:refresh@document->w-swap#replace"></form>
+    {% include "wagtail_kanban_content_calendar/includes/dialogs.html" %}
+</div>

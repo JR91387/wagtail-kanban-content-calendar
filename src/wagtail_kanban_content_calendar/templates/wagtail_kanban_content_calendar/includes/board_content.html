@@ -1,0 +1,23 @@
+{% load i18n wagtailadmin_tags %}
+{% include "wagtailadmin/shared/listing/filter_partials.html" %}
+<div class="wkcc-board" role="list">
+    {% for stage, cards in columns %}
+        <section class="wkcc-column" role="listitem" aria-labelledby="col-{{ stage.value }}" data-stage="{{ stage.value }}"
+                 data-action="dragover->wkcc-board#dragOver dragleave->wkcc-board#dragLeave drop->wkcc-board#drop">
+            <h2 class="wkcc-column__title" id="col-{{ stage.value }}">{{ stage.label }} <span class="wkcc-count">{{ cards|length }}</span></h2>
+            {% if stage.value == "published" %}<p class="wkcc-help">{% blocktrans %}Last {{ published_days }} days{% endblocktrans %}</p>{% endif %}
+            {% for card in cards %}
+                {% include "wagtail_kanban_content_calendar/includes/card.html" %}
+            {% empty %}
+                <p class="wkcc-empty">{% trans "Nothing here yet" %}</p>
+            {% endfor %}
+        </section>
+    {% endfor %}
+</div>
+
+<details class="wkcc-cancelled"{% if show_cancelled %} open{% endif %}>
+    <summary>{% blocktrans count n=cancelled|length %}Cancelled ({{ n }}){% plural %}Cancelled ({{ n }}){% endblocktrans %}</summary>
+    <div class="wkcc-cancelled__list" data-stage="cancelled" data-action="dragover->wkcc-board#dragOver dragleave->wkcc-board#dragLeave drop->wkcc-board#drop">
+        {% for card in cancelled %}{% include "wagtail_kanban_content_calendar/includes/card.html" %}{% empty %}<p class="wkcc-empty">{% trans "No cancelled ideas" %}</p>{% endfor %}
+    </div>
+</details>

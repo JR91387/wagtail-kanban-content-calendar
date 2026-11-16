@@ -1,0 +1,35 @@
+{% load i18n wagtailadmin_tags %}
+<div class="wkcc-detail">
+    {% if confirm_stage %}
+        <form class="wkcc-confirm" method="post" action="{% url 'wagtail_kanban_content_calendar:move' card.page.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="to" value="{{ confirm_stage.value }}">
+            <input type="hidden" name="token" value="{{ card.token }}">
+            <input type="hidden" name="next" value="{{ confirm_next }}">
+            <input type="hidden" name="confirm" value="1">
+            <p>{% blocktrans with title=card.page.title stage=confirm_stage.label %}Move “{{ title }}” to {{ stage }}?{% endblocktrans %}</p>
+            {% if card.undo_message %}<p class="help-block help-warning">{{ card.undo_message }}</p>{% endif %}
+            <button type="submit" class="button">{% blocktrans with stage=confirm_stage.label %}Move to {{ stage }}{% endblocktrans %}</button>
+            <a class="button button-secondary" href="{{ confirm_next }}">{% trans "Cancel" %}</a>
+        </form>
+    {% endif %}
+    <p class="wkcc-help">{{ card.page.specific_class.get_verbose_name }} · {{ card.page.get_site.site_name|default:card.page.get_site.hostname }} · {{ card.page.url_path }}</p>
+    <dl class="wkcc-detail__facts">
+        <dt>{% trans "Stage" %}</dt><dd><span class="wkcc-chip">{{ card.stage.label }}</span></dd>
+        <dt>{% trans "Status" %}</dt><dd>{% status card.page.status_string classname="w-status--primary" %}</dd>
+        <dt>{% trans "Author" %}</dt><dd>{{ card.page.owner.get_full_name|default:card.page.owner.get_username|default:"—" }}</dd>
+        <dt>{% trans "Last edited" %}</dt><dd>{% if card.page.latest_revision %}{% blocktrans with ago=card.page.latest_revision.created_at|timesince %}{{ ago }} ago{% endblocktrans %}{% else %}—{% endif %}</dd>
+        <dt>{% trans "Workflow" %}</dt><dd>{% if card.page.workflow_in_progress %}{{ card.page.current_workflow_state.workflow.name }}{% else %}{% trans "None in progress" %}{% endif %}</dd>
+        <dt>{% trans "Go-live" %}</dt><dd>{{ card.go_live_at|date:"M j, Y H:i"|default:_("Not scheduled") }}</dd>
+        <dt>{% trans "Target date" %}</dt><dd>{{ card.target_date|date:"M j, Y"|default:"—" }}</dd>
+    </dl>
+    <p class="wkcc-detail__actions">
+        <a class="button" href="{% url 'wagtailadmin_pages:edit' card.page.pk %}">{% trans "Edit page" %}</a>
+        <a class="button button-secondary" href="{% url 'wagtailadmin_pages:view_draft' card.page.pk %}" target="_blank" rel="noopener">{% trans "Preview" %}</a>
+    </p>
+    {% include "wagtail_kanban_content_calendar/includes/card.html" with card=card %}
+    <h3>{% trans "History" %}</h3>
+    <ul class="wkcc-history">
+        {% for entry in log_entries %}<li><time datetime="{{ entry.timestamp|date:'c' }}">{{ entry.timestamp|date:"M j H:i" }}</time> {{ entry.user_display_name }} — {{ entry.message }}</li>{% empty %}<li>{% trans "No history yet" %}</li>{% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,40 @@
+{% load i18n wagtailadmin_tags %}
+{% dialog id="wkcc-card-dialog" title=_("Quick view") icon_name="doc-full" %}
+    <div id="wkcc-card-body"><p>{% trans "Loading…" %}</p></div>
+{% enddialog %}
+{# w-swap needs a source URL to connect; each open passes the card's own URL in the event. #}
+<form hidden method="get" action="{% url 'wagtail_kanban_content_calendar:board' %}"
+      data-controller="w-swap" data-w-swap-target-value="#wkcc-card-body"
+      data-action="wkcc:open-card@document->w-swap#replace"></form>
+
+{% dialog id="wkcc-new-idea-dialog" title=_("New idea") icon_name="plus" %}
+    <form method="post" action="{% url 'wagtail_kanban_content_calendar:new_idea' %}" class="wkcc-form">
+        {% csrf_token %}
+        {{ new_idea_form.as_div }}
+        {% if planner_settings.starter_body %}
+            <p class="wkcc-help">{% trans "Starts from the starter template (Settings > Content planner):" %}</p>
+            <div class="wkcc-starter">{{ planner_settings.starter_body|safe }}</div>
+        {% endif %}
+        <button type="submit" class="button">{% trans "Create idea" %}</button>
+    </form>
+{% enddialog %}
+
+{% dialog id="wkcc-schedule-dialog" title=_("Schedule") icon_name="calendar-alt" %}
+    <form method="post" class="wkcc-form" id="wkcc-schedule-form">
+        {% csrf_token %}
+        <p class="wkcc-help" id="wkcc-schedule-title"></p>
+        {{ schedule_form.as_div }}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <input type="hidden" name="confirm" value="">
+        <button type="submit" class="button">{% trans "Schedule" %}</button>
+        <button type="button" class="button button-secondary" data-wkcc-ready-without-date>{% trans "Ready to publish without a date" %}</button>
+    </form>
+{% enddialog %}
+
+{% dialog id="wkcc-confirm-dialog" title=_("Confirm move") icon_name="warning" %}
+    <p id="wkcc-confirm-text"></p>
+    <p class="wkcc-detail__actions">
+        <button type="button" class="button" id="wkcc-confirm-go">{% trans "Yes, move it" %}</button>
+        <button type="button" class="button button-secondary" data-action="w-dialog#hide">{% trans "Cancel" %}</button>
+    </p>
+{% enddialog %}

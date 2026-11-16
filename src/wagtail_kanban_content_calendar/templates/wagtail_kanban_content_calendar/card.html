@@ -1,0 +1,11 @@
+{% extends "wagtail_kanban_content_calendar/base.html" %}
+{% load i18n %}
+{% block main_content %}
+<div data-controller="wkcc-board" data-wkcc-board-csrf-value="{{ csrf_token }}"
+     data-wkcc-board-network-error-value="{% trans 'Couldn’t reach the server. Nothing was changed. Check your connection and try again.' %}"
+     data-wkcc-board-not-allowed-value="{% trans 'That didn’t work. You may not have permission, or your session ended. Reload the page.' %}"
+     data-wkcc-board-server-error-value="{% trans 'The server had a problem, so nothing was changed. Try again, or reload the page.' %}">
+    {% include "wagtail_kanban_content_calendar/includes/card_detail.html" %}
+    {% include "wagtail_kanban_content_calendar/includes/dialogs.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load i18n wagtailadmin_tags %}
+{% panel id="content-planner" heading=_("Content planner") classname="w-panel--dashboard" %}
+    {% if overdue_message %}<p class="help-block help-warning">{% icon name="warning" %}{{ overdue_message }}</p>{% endif %}
+    <div class="wkcc-home">
+        <section>
+            <h3>{% blocktrans count n=up_next|length %}Up next ({{ n }}){% plural %}Up next ({{ n }}){% endblocktrans %}</h3>
+            <ul>
+                {% for page, target in up_next %}
+                    <li><a href="{% url 'wagtailadmin_pages:edit' page.pk %}">{{ page.title }}</a>{% if target %} · {% blocktrans with when=target|date:"M j" %}target {{ when }}{% endblocktrans %}{% endif %}</li>
+                {% empty %}<li>{% trans "Nothing queued" %}</li>{% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h3>{% blocktrans count n=this_week|length %}This week ({{ n }}){% plural %}This week ({{ n }}){% endblocktrans %}</h3>
+            <ul>
+                {% for when, page, kind in this_week %}
+                    <li>{{ when|date:"D M j" }} · <a href="{% url 'wagtailadmin_pages:edit' page.pk %}">{{ page.title }}</a> ({{ kind }})</li>
+                {% empty %}<li>{% trans "Nothing due in the next 7 days" %}</li>{% endfor %}
+            </ul>
+        </section>
+    </div>
+    <p><a class="button button-small button-secondary" href="{{ board_url }}">{% trans "Open board" %}</a> <a class="button button-small button-secondary" href="{{ calendar_url }}">{% trans "Open calendar" %}</a> <a class="button button-small button-secondary" href="{{ all_sites_url }}">{% trans "All sites" %}</a></p>
+{% endpanel %}

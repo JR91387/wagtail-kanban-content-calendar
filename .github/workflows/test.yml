@@ -1,0 +1,81 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uvx ruff check .
+      - run: uvx ruff format --check .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Oldest supported Wagtail LTS, on the oldest and newest Python it supports here.
+          - {
+              python: '3.11',
+              toxenv: wt74-dj52,
+              database: sqlite,
+              experimental: false,
+            }
+          - {
+              python: '3.14',
+              toxenv: wt74-dj60,
+              database: postgres,
+              experimental: false,
+            }
+          # Latest Wagtail release.
+          - {
+              python: '3.11',
+              toxenv: wt81-dj61,
+              database: sqlite,
+              experimental: false,
+            }
+          - {
+              python: '3.14',
+              toxenv: wt81-dj61,
+              database: postgres,
+              experimental: false,
+            }
+          # Wagtail main: an early warning, allowed to fail.
+          - {
+              python: '3.14',
+              toxenv: wtmain-dj61,
+              database: sqlite,
+              experimental: true,
+            }
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run tests
+        env:
+          DATABASE_URL: ${{ matrix.database == 'postgres' && 'postgres://postgres:postgres@localhost:5432/postgres' || '' }}
+        run: uvx --with tox-uv tox -e ${{ matrix.toxenv }}

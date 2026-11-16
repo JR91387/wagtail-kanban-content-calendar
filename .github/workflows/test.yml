@@ -44,7 +44,7 @@ jobs:
             }
           # Latest Wagtail release.
           - {
-              python: '3.11',
+              python: '3.12',
               toxenv: wt81-dj61,
               database: sqlite,
               experimental: false,

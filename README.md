@@ -3,14 +3,6 @@
   A kanban board and content calendar for Wagtail pages, inside the Wagtail admin.
 </p>
 
-<p align="center">
-  <a href="https://pypi.org/project/wagtail-kanban-content-calendar/"><img src="https://img.shields.io/pypi/v/wagtail-kanban-content-calendar" alt="PyPI"></a>
-  <a href="https://github.com/JR91387/wagtail-kanban-content-calendar/actions/workflows/test.yml"><img src="https://github.com/JR91387/wagtail-kanban-content-calendar/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-  <img src="https://img.shields.io/pypi/pyversions/wagtail-kanban-content-calendar" alt="Python versions">
-  <img src="https://img.shields.io/badge/wagtail-7.4%20LTS%2B-43b1b0" alt="Wagtail 7.4 LTS+">
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
-</p>
-
 ---
 
 Plan your content where it already lives. Every card is a real Wagtail page, and every move runs one of

@@ -9,9 +9,9 @@ Plan your content where it already lives. Every card is a real Wagtail page, and
 Wagtail's own actions: save a revision, submit to a workflow, schedule, publish or unpublish. Each move is
 recorded in the page's history under the person who made it.
 
-![Dragging a card from Idea to Up next to Writing, opening its quick view, then opening the page editor](docs/images/board.gif)
+![Dragging a card from Idea to Up next to Writing, opening its quick view, then opening the page editor](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board.gif)
 
-![Dragging an idea onto a calendar day to set its target date](docs/images/calendar.gif)
+![Dragging an idea onto a calendar day to set its target date](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/calendar.gif)
 
 ## Features
 
@@ -28,7 +28,7 @@ recorded in the page's history under the person who made it.
 
 | All sites | Dark theme |
 |---|---|
-| ![The All-sites board: each card names its site](docs/images/board_all_sites.png) | ![The board in Wagtail's dark theme](docs/images/board_dark.png) |
+| ![The All-sites board: each card names its site](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board_all_sites.png) | ![The board in Wagtail's dark theme](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board_dark.png) |
 
 The [wiki](https://github.com/JR91387/wagtail-kanban-content-calendar/wiki) has the user guide.
 
@@ -116,7 +116,7 @@ All settings are listed on the wiki's [Settings](https://github.com/JR91387/wagt
 
 ## Upgrading
 
-`pip install -U wagtail-kanban-content-calendar`, then `python manage.py migrate`. See [CHANGELOG.md](CHANGELOG.md).
+`pip install -U wagtail-kanban-content-calendar`, then `python manage.py migrate`. See [CHANGELOG.md](https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/CHANGELOG.md).
 Removing it: `python manage.py migrate wagtail_kanban_content_calendar zero`, then take it out of
 `INSTALLED_APPS`. Your pages are untouched.
 
@@ -133,8 +133,8 @@ python testmanage.py planner_demo   # demo pages in every stage; log in as demo 
 python testmanage.py runserver
 ```
 
-Bug reports and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Report security issues
-privately as described in [SECURITY.md](SECURITY.md).
+Bug reports and pull requests are welcome; see [CONTRIBUTING.md](https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/CONTRIBUTING.md). Report security issues
+privately as described in [SECURITY.md](https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/SECURITY.md).
 
 ## Thank you
 
@@ -147,4 +147,4 @@ privately as described in [SECURITY.md](SECURITY.md).
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/LICENSE).

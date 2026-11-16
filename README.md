@@ -1,13 +1,14 @@
-<p align="center">
-  <b>wagtail-kanban-content-calendar</b><br>
-  A kanban board and content calendar for Wagtail pages, inside the Wagtail admin.
-</p>
+# wagtail-kanban-content-calendar
 
----
+A kanban board and editorial content calendar for the Wagtail CMS. Editors plan, schedule and publish
+Wagtail pages from inside the Wagtail admin, on any Django site that runs Wagtail 7.4 or later.
 
-Plan your content where it already lives. Every card is a real Wagtail page, and every move runs one of
-Wagtail's own actions: save a revision, submit to a workflow, schedule, publish or unpublish. Each move is
-recorded in the page's history under the person who made it.
+Each card on the board is a real Wagtail page. Dragging a card runs the same action the page editor would run:
+it saves a revision, submits the page to a workflow, schedules it, publishes it or unpublishes it. The page
+history records each move under the editor who made it, so nobody keeps a second task list in sync by hand.
+
+It suits blogs, news sites and marketing teams that already publish with Wagtail and want an editorial calendar
+without another tool.
 
 ![Dragging a card from Idea to Up next to Writing, opening its quick view, then opening the page editor](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board.gif)
 
@@ -15,22 +16,24 @@ recorded in the page's history under the person who made it.
 
 ## Features
 
-- **Board**: Idea → Up next → Writing → Reviewing → Ready to publish → Published, plus Cancelled. Drag a card or
-  use its ⋯ menu; without JavaScript, every card has a plain Move form.
-- **Calendar**: month and week views. Drag onto a day to schedule a page or set a target date.
-- **One site or all sites**: a board and calendar per site, or every site you can edit at once.
-- **In the editor**: the stage shows in the page header, and stage moves appear in the Publish menu.
-- **Dashboard**: an "Up next / This week" panel and a count of pages scheduled this week.
-- **Any page type**: you choose which page models are tracked.
-- **Wagtail's rules**: page permissions, locks, workflows and scheduled publishing work as in the normal editor.
-- **Looks like Wagtail**: admin templates, Stimulus controllers, colour tokens, icons and themes. No front-end
-  build and no extra JavaScript dependencies.
+- **Kanban board.** Columns run Idea, Up next, Writing, Reviewing, Ready to publish and Published, with Cancelled
+  below. Drag a card or use its ⋯ menu. Without JavaScript, every card has a plain Move form.
+- **Content calendar.** Month and week views. Drag a page onto a day to schedule it or give it a target date.
+- **Multi-site.** Each Wagtail site gets its own board and calendar, and an All sites view shows every site you
+  can edit.
+- **Page editor.** The page header shows the stage, and the Publish menu has the stage moves.
+- **Dashboard.** The Wagtail dashboard gets an "Up next / This week" panel and a count of pages scheduled this week.
+- **Any page type.** You pick which page models appear, so it works with your own blog or news models.
+- **Wagtail permissions.** Page permissions, locks, workflows and scheduled publishing behave as they do in the
+  normal editor.
+- **Built from the Wagtail admin.** It uses Wagtail's templates, Stimulus controllers, colour tokens, icons and
+  themes. There is no front-end build and no extra JavaScript dependency.
 
 | All sites | Dark theme |
 |---|---|
 | ![The All-sites board: each card names its site](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board_all_sites.png) | ![The board in Wagtail's dark theme](https://raw.githubusercontent.com/JR91387/wagtail-kanban-content-calendar/main/docs/images/board_dark.png) |
 
-The [wiki](https://github.com/JR91387/wagtail-kanban-content-calendar/wiki) has the user guide.
+The user guide is on the [wiki](https://github.com/JR91387/wagtail-kanban-content-calendar/wiki).
 
 ## How it works
 
@@ -51,7 +54,7 @@ flowchart LR
 | Published | The page is live |
 | Reviewing | A Wagtail workflow is in progress (or a plain stage, if you turn workflows off) |
 | Ready to publish | A revision is scheduled (or approved and waiting for a date) |
-| Idea, Up next, Writing, Cancelled | The add-on's own table, one row per page; your page models are never changed |
+| Idea, Up next, Writing, Cancelled | The add-on's own table, one row per page. It never changes your page models. |
 
 ## Requirements
 
@@ -144,6 +147,11 @@ privately as described in [SECURITY.md](https://github.com/JR91387/wagtail-kanba
   add-on template this project started from.
 - **[wagtail-calendar](https://pypi.org/project/wagtail-calendar/)**, the earlier calendar add-on for the Wagtail
   admin, which showed how useful a content calendar inside Wagtail can be.
+
+## Author
+
+Built by [Jerry Reinitz](https://JerryReinitz.com), a software engineer in Tulsa, Oklahoma, and the founder of
+Reinitz Industries.
 
 ## License
 

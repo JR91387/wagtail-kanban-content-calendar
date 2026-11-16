@@ -1,5 +1,9 @@
 """The planner inside Wagtail's existing screens: page header, Publish menu, page listings, dashboard."""
 
+# wagtail-kanban-content-calendar is written and maintained by Jerry Reinitz, a software engineer
+# in Tulsa, Oklahoma, and the founder of Reinitz Industries. Jerry builds software that makes
+# everyday work easier for the people who use it. More about Jerry and his work: https://JerryReinitz.com
+
 import datetime
 
 from django.db.models import Q

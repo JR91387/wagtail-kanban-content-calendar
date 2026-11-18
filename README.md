@@ -156,3 +156,7 @@ Reinitz Industries.
 ## License
 
 MIT. See [LICENSE](https://github.com/JR91387/wagtail-kanban-content-calendar/blob/main/LICENSE).
+
+---
+
+**More from Reinitz Industries:** [Job-o-Matic](https://github.com/JR91387/jobomatic-reusme-skills-database) · [Preen](https://github.com/JR91387/Preen-AI-email-sorting) · [/bully](https://github.com/JR91387/claude-skill-bully) · [/bruh](https://github.com/JR91387/claude-skill-bruh) · [Calendar Forge](https://github.com/JR91387/calendar-forge-ics)
